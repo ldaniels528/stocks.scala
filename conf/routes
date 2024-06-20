@@ -1,0 +1,48 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# https://www.playframework.com/documentation/latest/ScalaRouting
+# ~~~~
+
+#########################################################################
+#       WEB ROUTES
+#########################################################################
+
+# Home view
+# curl -X GET http://localhost:9000/
+GET           /                                controllers.HomeController.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET           /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
+
+#########################################################################
+#       ORDER ROUTES
+#########################################################################
+
+# Cancel an existing Order
+# curl -X DELETE http://localhost:9000/orders/ABC/NYSE
+DELETE        /orders/:symbol/:exchange        controllers.OrderController.cancelOrder(symbol: String, exchange: String)
+
+# Get a Quote
+# curl -X GET http://localhost:9000/orders/ABC/NYSE
+GET           /orders/:symbol/:exchange        controllers.OrderController.getOrder(symbol: String, exchange: String)
+
+# Place an Order
+# curl -X POST http://localhost:9000/orders \
+#    -H "Content-Type: application/json" \
+#    -d '{ "orderType": "BUY", "symbol": "ABC", "exchange": "NYSE", "quantity": 100 }'
+POST          /orders                          controllers.OrderController.createOrder()
+
+# Modify an existing Order
+# curl -X PUT http://localhost:9000/orders \
+#    -H "Content-Type: application/json" \
+#    -d '{ "orderType": "BUY", "symbol": "ABC", "exchange": "NYSE", "quantity": 100 }'
+PUT           /orders                          controllers.OrderController.modifyOrder()
+
+#########################################################################
+#       STOCK QUOTE ROUTES
+#########################################################################
+
+# Get a Stock Quote
+# curl -X GET http://localhost:9000/quotes/ABC/NYSE
+GET           /quotes/:symbol/:exchange        controllers.StockQuotesController.getStockQuote(symbol: String, exchange: String)
+
